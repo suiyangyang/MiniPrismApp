@@ -1,0 +1,11 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Style x:Key="DialogWindowStyle" TargetType="Window">
+    <Setter Property="WindowStartupLocation" Value="CenterOwner"/>
+    <Setter Property="SizeToContent" Value="WidthAndHeight"/>
+    <Setter Property="ResizeMode" Value="NoResize"/>
+    <Setter Property="ShowInTaskbar" Value="False"/>
+    <Setter Property="MinWidth" Value="320"/>
+    <Setter Property="MinHeight" Value="160"/>
+  </Style>
+</ResourceDictionary>
