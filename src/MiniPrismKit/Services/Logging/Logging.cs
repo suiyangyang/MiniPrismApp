@@ -18,8 +18,9 @@ namespace MiniPrismKit.Services.Logging
             {
                 appName = string.IsNullOrWhiteSpace(appName) ? AppDomain.CurrentDomain.FriendlyName : appName;
                 logDirectory = string.IsNullOrWhiteSpace(logDirectory)
-                    ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), appName, "logs")
+                    ? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs")
                     : logDirectory;
+                var logFile = Path.Combine(logDirectory, "log-.txt");
 
                 Directory.CreateDirectory(logDirectory);
 
@@ -27,7 +28,7 @@ namespace MiniPrismKit.Services.Logging
                     .Enrich.FromLogContext()
                     .Enrich.WithProperty("ProcessId", Environment.ProcessId)
                     .Enrich.WithProperty("ThreadId", Environment.CurrentManagedThreadId)
-                    .WriteTo.File("log-.txt", rollingInterval: RollingInterval.Day)
+                    .WriteTo.File(logFile, rollingInterval: RollingInterval.Day)
                     .CreateLogger();
 
                 _initialized = true;
