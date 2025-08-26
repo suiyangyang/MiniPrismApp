@@ -1,3 +1,4 @@
+using Prism.Services.Dialogs;
 using System.Windows;
 
 namespace MiniPrismKit.Dialogs

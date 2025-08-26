@@ -10,12 +10,13 @@
 		<PackageOutputPath>E:\Work\Code\Nugets</PackageOutputPath>
 		<Version>1.0.0</Version>
 		<Authors>Suiyy</Authors>
-		<Description>Mini Prism with MVVM Dialog Config Logging Kit</Description>
+		<Description>该组件集成了Prism SeriLog appsettings.json配置 WebClient(发起web请求)等常用WPF客户端组件，并解决了MVVM中的一些常见的比如View和VM的互相访问等问题，以达到开箱即用的目的</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-		<PackageReference Include="Prism.DryIoc" Version="9.0.537" />
+		<PackageReference Include="Prism.Core" Version="8.1.97" />
+		<PackageReference Include="Prism.DryIoc" Version="8.1.97" />
 		<PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
 	</ItemGroup>
 

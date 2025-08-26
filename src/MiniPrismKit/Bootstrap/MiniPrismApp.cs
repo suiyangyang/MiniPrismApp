@@ -1,7 +1,10 @@
+using MiniPrismKit.MVVM;
 using MiniPrismKit.Services.Configuration;
 using MiniPrismKit.Services.Exceptions;
 using MiniPrismKit.Services.Logging;
-using MinitPrismKit.Services.Configuration;
+using Prism.DryIoc;
+using Prism.Ioc;
+using Prism.Mvvm;
 using Serilog;
 using System.Windows;
 
@@ -21,7 +24,7 @@ namespace MiniPrismKit.Bootstrap
             _logDirectory = logDirectory;
         }
 
-        protected override IContainerExtension CreateContainerExtension() => new DryIocContainerExtension(new Container(rules => rules.WithTrackingDisposableTransients()));
+        //protected override IContainerExtension CreateContainerExtension() => //new DryIocContainerExtension(new Container(rules => rules.WithTrackingDisposableTransients()));
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -43,10 +46,13 @@ namespace MiniPrismKit.Bootstrap
 
             // 用户可在此注册自定义服务
             ConfigureServices(containerRegistry);
+            RegisterDialogTypes(containerRegistry);
         }
 
         /// <summary>给派生类添加自定义服务的扩展点。</summary>
         protected virtual void ConfigureServices(IContainerRegistry containerRegistry) { }
+
+        protected abstract void RegisterDialogTypes(IContainerRegistry containerRegistry);
 
         protected override Window CreateShell()
         {
@@ -56,19 +62,11 @@ namespace MiniPrismKit.Bootstrap
 
         protected override void ConfigureViewModelLocator()
         {
-            base.ConfigureViewModelLocator();
-
-            // 默认规则：View -> ViewModel
-            ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(viewType =>
-            {
-                var viewName = viewType.FullName!;
-                var viewAssemblyName = viewType.Assembly.FullName!;
-
-                // 把命名空间里的 "Views" 替换成 "ViewModels"
-                var viewModelName = viewName.Replace(".Views.", ".ViewModels.") + "ViewModel";
-
-                return Type.GetType($"{viewModelName}, {viewAssemblyName}");
-            });
+            ViewModelLocationProvider.SetDefaultViewModelFactory(
+                new ViewModelResolver(() =>
+                    Container).
+                    UseDefaultConfigure().
+                    ResolveViewModelForView);
         }
 
         /// <summary>派生类必须返回主窗口实例。</summary>

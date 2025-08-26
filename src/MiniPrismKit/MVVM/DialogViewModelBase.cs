@@ -1,22 +1,27 @@
-﻿using MiniPrismKit.MVVM;
-using MinitPrismKit.Services.Configuration;
+﻿using MiniPrismKit.Services.Configuration;
+using Prism.Commands;
+using Prism.Events;
+using Prism.Ioc;
+using Prism.Services.Dialogs;
 
-namespace MinitPrismKit.MVVM
+namespace MiniPrismKit.MVVM
 {
     public class DialogViewModelBase : ViewModelBase, IDialogAware
     {
-        public DialogViewModelBase(IEventAggregator eventAggregator, IConfigService config, IContainerProvider container) : base(eventAggregator, config, container)
+        public event Action<IDialogResult> RequestClose;
+
+        public DialogViewModelBase(IEventAggregator eventAggregator, IConfigService config, IContainerProvider container)
+            : base(eventAggregator, config, container)
         {
             OkCommand = new DelegateCommand(Ok);
             CancelCommand = new DelegateCommand(Cancel);
         }
 
-        public DialogCloseListener RequestClose { get; internal set; }
-
         public DelegateCommand OkCommand { get; private set; }
 
         public DelegateCommand CancelCommand { get; private set; }
 
+        public string Title { get; set; }
 
         public virtual bool CanCloseDialog() => true;
 
@@ -42,9 +47,9 @@ namespace MinitPrismKit.MVVM
             try
             {
                 if (parameters != null)
-                    RequestClose.Invoke(parameters, result);
+                    RequestClose.Invoke(new DialogResult(result, parameters));
                 else
-                    RequestClose.Invoke(result);
+                    RequestClose.Invoke(new DialogResult(result));
             }
             catch (InvalidOperationException)
             {

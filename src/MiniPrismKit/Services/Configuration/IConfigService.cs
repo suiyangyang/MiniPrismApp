@@ -1,7 +1,11 @@
-﻿namespace MinitPrismKit.Services.Configuration
+﻿namespace MiniPrismKit.Services.Configuration
 {
     public interface IConfigService
-    {
+    {/// <summary>
+     /// 当配置文件被外部修改时触发
+     /// </summary>
+        event EventHandler? ConfigChanged;
+
         /// <summary>
         /// 从配置文件获取值
         /// </summary>

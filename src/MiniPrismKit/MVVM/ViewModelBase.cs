@@ -1,9 +1,13 @@
-﻿using MinitPrismKit.Services.Configuration;
+﻿using MiniPrismKit.Services.Configuration;
+using Prism.Events;
+using Prism.Ioc;
+using Prism.Mvvm;
 using Serilog;
+using System.Windows.Threading;
 
 namespace MiniPrismKit.MVVM
 {
-    public class ViewModelBase
+    public class ViewModelBase : BindableBase
     {
         protected readonly IEventAggregator EventAggregator;
         protected readonly IConfigService Config;
@@ -20,6 +24,8 @@ namespace MiniPrismKit.MVVM
             Container = container;
             Logger = Serilog.Log.Logger;
         }
+
+        public Dispatcher Dispatcher { get; set; }
 
         // 示例：发布事件
         protected void PublishEvent<TEvent, TPayload>(TPayload payload)

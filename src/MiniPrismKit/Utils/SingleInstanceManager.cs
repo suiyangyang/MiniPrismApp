@@ -3,7 +3,7 @@ using System.IO.Pipes;
 using System.Reflection;
 using System.Windows;
 
-namespace MinitPrismKit.Utils
+namespace MiniPrismKit.Utils
 {
     public static class SingleInstanceManager
     {

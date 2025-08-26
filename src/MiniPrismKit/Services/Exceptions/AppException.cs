@@ -1,4 +1,4 @@
-﻿namespace MinitPrismKit.Services.Exceptions
+﻿namespace MiniPrismKit.Services.Exceptions
 {
     public class AppException : Exception
     {
